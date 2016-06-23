@@ -1,0 +1,44 @@
+<head>
+  <title>Lists</title>
+</head>
+
+<body>
+  <div class="wrapper">
+  {{> menu}}
+  {{> content}}
+  </div>
+</body>
+
+<template name="menu">
+
+  <div class="menu-panel">
+    <div class="menu-buttons">
+
+      {{#each topic}}
+
+      <button class="menu-button text-left" id={{_id}}>{{topicName}}</button>
+      <br>
+
+      {{/each}}
+
+      <button type="button" class="btn btn-default btn-lg js-add-new-topic">
+        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add new topic
+      </button>
+
+    </div>
+
+  </div>
+
+</template>
+
+<template name="content">
+
+    <div class="content-panel">
+
+      <div class="content">
+
+      </div>
+
+    </div>
+
+</template>

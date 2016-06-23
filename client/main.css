@@ -1,0 +1,142 @@
+html, body {
+	height: 100%;
+	width: 100%;
+}
+
+.wrapper {
+	height: 100%;
+	width: 100%;
+	background-color: #e6e6e6;
+}
+
+.menu-panel {
+	display: inline-block;
+	background-color: #ff8533;
+	width: 20%;
+	height: 100%;
+}
+
+.menu-buttons {
+
+}
+
+.menu-button {
+	width: 100%;
+	outline: 0;
+	background-color: Transparent;
+	border: none;
+	padding: 10px;
+	font-size: 18px;
+	color: white;
+}
+.menu-button:hover {
+	background-color: #e6e6e6;
+	color: black;
+}
+
+.js-add-new-topic {
+	width: 100%;
+	background-color: Transparent;
+	border: none;
+}
+
+
+
+
+.content-panel {
+    display: inline-block;
+    vertical-align: top;
+    width: 75%;
+
+}
+
+.content {
+	padding-left: 40px;
+	padding-top: 20px;
+	width: 100%;
+
+}
+
+.one-topic {
+	background-color: #ff4d4d;
+	padding: 10px;
+	border-radius: 6px;
+	width: 100%;
+}
+
+.js-topic-name {
+	background-color: Transparent;
+	border: none;
+	font-size: 22px;
+	width: 90%;
+	outline: none;
+	font-weight: bold;
+}
+
+.js-list-element {
+	background-color: Transparent;
+	border: none;
+	font-size: 16px;
+	width: 90%;
+	outline: none;
+}
+
+.js-list-element-content {
+	width: 100%;
+	background-color: #ff6666;
+}
+
+hr {
+	padding: 0px;
+	margin: 0px;
+	border-color: black;
+}
+
+
+
+
+.js-add-element {
+	background-color: transparent;
+	border: none;
+	padding: 0px;
+}
+.js-add-element:focus, .js-add-element:active {
+	outline: none !important;
+}
+.js-add-element:hover {
+	text-decoration: underline;
+}
+.add-element-container {
+	padding-bottom: 20px;
+}
+
+
+
+
+.js-delete-topic {
+	float: right;
+	background-color: transparent;
+	border: none;
+
+}
+.js-delete-topic:focus, .js-delete-topic:active {
+	outline: none !important;
+	background-color: transparent;
+}
+.js-delete-topic:hover {
+	background-color: transparent;
+}
+
+.js-delete-list-element {
+	float: right;
+	background-color: transparent;
+	border: none;
+
+}
+.js-delete-list-element:focus, .js-delete-list-element:active {
+	outline: none !important;
+	background-color: transparent;
+}
+.js-delete-list-element:hover {
+	background-color: transparent
+}
