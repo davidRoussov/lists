@@ -36,13 +36,19 @@ html, body {
 }
 
 
-
+#login-buttons {
+	float: right;
+	padding-right: 40px;
+	padding-top: 10px;
+}
 .login-link-text {
 	color: white;
+	font-size: 18px;
 }
 .login-link-text:hover {
 	color: white;
 }
+
 
 
 

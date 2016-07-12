@@ -19,7 +19,7 @@
       <span class="glyphicon glyphicon-plus top-bar-buttons" aria-hidden="true"></span> Add new topic
     </button>
 
-    {{> loginButtons}}
+    {{> loginButtons align="right"}}
 
 
   </div>
@@ -31,12 +31,9 @@
   <div class="menu-panel">
     <div class="menu-buttons">
 
+      {{#if currentUser}}
+
       {{#each topic}}
-
-      
-
-
-
 
 
       <table cellpadding="0" cellspacing="0" class="menu-table">
@@ -55,14 +52,14 @@
             </div>
 
 
-
-
-
           </td>
         </tr>
       </table>
 
       {{/each}}
+
+      {{/if}}
+
 
     </div>
 

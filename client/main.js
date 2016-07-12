@@ -1,7 +1,18 @@
 import { Template } from 'meteor/templating';
+import { Accounts } from 'meteor/accounts-base';
 
 import './main.html';
 
+Accounts.ui.config({
+	passwordSignupFields: "USERNAME_ONLY",
+});
+
+Template.loginButtons.events({
+	"click #login-buttons-logout":function(event) {
+		$(".one-topic").next().remove();
+		$(".one-topic").remove();
+	}
+})
 
 Template.menu.helpers({
   topic: function() {
