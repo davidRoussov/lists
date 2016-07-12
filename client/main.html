@@ -4,10 +4,27 @@
 
 <body>
   <div class="wrapper">
+  {{> topBar}}
   {{> menu}}
   {{> content}}
   </div>
 </body>
+
+<template name="topBar">
+
+  <div class="top-panel">
+
+    <!-- click this to create a new topic -->
+    <button type="button" class="btn btn-default btn-lg top-bar-buttons js-add-new-topic">
+      <span class="glyphicon glyphicon-plus top-bar-buttons" aria-hidden="true"></span> Add new topic
+    </button>
+
+    {{> loginButtons}}
+
+
+  </div>
+
+</template>
 
 <template name="menu">
 
@@ -16,14 +33,36 @@
 
       {{#each topic}}
 
-      <button class="menu-button text-left" id={{_id}}>{{topicName}}</button>
-      <br>
+      
+
+
+
+
+
+      <table cellpadding="0" cellspacing="0" class="menu-table">
+        <tr>
+          <td>
+            <button class="menu-button text-left" id={{_id}}>{{topicName}}</button></td>
+          <td>
+            <button type="button" class="btn btn-default btn-xs menu-options-button js-topic-options">
+              <span class="glyphicon glyphicon-option-horizontal menu-options-span js-topic-options" aria-hidden="true"></span>
+            </button>
+
+
+            <!-- Dropdown menu that appears when you click the button or span above-->
+            <div class="dropdown-content">
+              <li class="js-delete-topic">Delete</li>
+            </div>
+
+
+
+
+
+          </td>
+        </tr>
+      </table>
 
       {{/each}}
-
-      <button type="button" class="btn btn-default btn-lg js-add-new-topic">
-        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add new topic
-      </button>
 
     </div>
 
