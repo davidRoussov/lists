@@ -37,29 +37,7 @@ Template.body.events({
 
 Template.topBar.events({
 	"click .js-add-new-topic":function(event) {
-		//createNewTopic();
-
-
-
-
-		
-		var newDoc = {};
-		var cursor = ListData.find();
-		cursor.forEach(function(doc) {
-			newDoc["_id"] = doc["_id"];
-			newDoc["topicName"] = doc["topicName"];
-			newDoc["list"] = doc["list"];
-			newDoc["owner"] = Meteor.userId();
-			newDoc["userName"] = Meteor.user().username;
-			ListData.update({"_id": doc["_id"]}, newDoc);
-		});
-
-
-
-
-
-
-
+		createNewTopic();
 	}
 });
 
