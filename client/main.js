@@ -44,7 +44,19 @@ Template.topBar.events({
 Template.menu.events({
 	"click .menu-button":function(event) {
 		var docid = $(event.target).attr("id");
-		showList(docid);
+
+		//finding if topic is already shown, remove it if it is
+		if ($(".content-panel").find("#"+docid).length > 0) {
+			$(".content-panel").find("#"+docid).next().remove();
+			$(".content-panel").find("#"+docid).remove();
+			$(event.target).parent().parent().css("background-color", "#48A28E");
+		} else {
+			showList(docid);
+			$(event.target).parent().parent().css("background-color", "#83E1CC");
+		}
+
+
+
 	},
 	"click .js-topic-options":function(event) {
 
@@ -69,15 +81,12 @@ Template.menu.events({
 
 Template.content.events({
 	"click .js-list-element":function(event) {
-		var doesContentExist = $(event.target).next().next();
-		if (doesContentExist.is(":visible")) {
-			$(event.target).next().next().hide();
-		} else {
-			$(event.target).next().next().show();
-
-			// setting the height of the content textarea to the height of the text inside
-			var newHeight = $(event.target).next().next().children().first().get(0).scrollHeight + 10;
-			$(event.target).next().next().children().first().css("height", newHeight);
+		showHideContent(event);
+	},
+	// show or hide content area when you press enter
+	"keypress .js-list-element":function(event) {
+		if (event.which === 13) {
+			showHideContent(event);
 		}
 	},
 	"change .js-list-element":function(event) {
