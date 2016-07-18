@@ -127,24 +127,21 @@ Template.content.events({
 	"click .js-add-element":function(event) {
 		var docid = $(event.target).parent().parent().attr("id");
 		
-		incrementOrder(docid); // elements are added at the top; +1 to all the elements current existing
-
-
-		//*******************************
-		// the html ids are not incremented
-		//***************************
-
-		createEmptyElement(docid);
-
-		
-		var html = Meteor.htmlForJs.singleListElement(1, "", "");
-		
-		// if we update db with new element then we do not need to have this code - reactivity!
 		var nodeName = $(event.target).prop("nodeName");
 		if (nodeName === "BUTTON") {
+			var newOrder = $(event.target).parent().next().attr("id") - 1;
+			var html = Meteor.htmlForJs.singleListElement(newOrder, "", "");
+
 			$(event.target).parent().after(html);
+
+			createEmptyElement(docid, newOrder);
 		} else {
+			var newOrder = $(event.target).parent().next().attr("id") - 1;
+			var html = Meteor.htmlForJs.singleListElement(newOrder, "", "");
+
 			$(event.target).parent().parent().after(html);
+
+			createEmptyElement(docid, newOrder);
 		}
 	},
 	"click .js-delete-list-element":function(event) {
@@ -162,5 +159,24 @@ Template.content.events({
 		}
 
 		deleteListElement(docid, order);		
+	},
+	"mouseenter .js-delete-list-element":function(event) {
+		
+		var nodeName = $(event.target).prop("nodeName");
+		if (nodeName === "BUTTON") {
+			$(event.target).prev().css("background-color", "Tomato");
+		} else {
+			$(event.target).parent().prev().css("background-color", "Crimson");
+		}
+	},	
+	"mouseleave .js-delete-list-element":function(event) {
+		
+		var nodeName = $(event.target).prop("nodeName");
+		if (nodeName === "BUTTON") {
+			$(event.target).prev().css("background-color", "transparent");
+		} else {
+			$(event.target).parent().prev().css("background-color", "transparent");
+		}
 	}
+
 });

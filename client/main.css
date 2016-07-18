@@ -202,8 +202,9 @@ html, body {
 	background-color: Transparent;
 	border: none;
 	font-size: 18px;
-	width: 90%;
+	width: 97%;
 	outline: none;
+	border-radius:5px;
 }
 .list-element-changing:focus {
 	color: red;
