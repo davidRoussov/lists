@@ -130,6 +130,8 @@ Template.content.events({
 		var nodeName = $(event.target).prop("nodeName");
 		if (nodeName === "BUTTON") {
 			var newOrder = $(event.target).parent().next().attr("id") - 1;
+			if (isNaN(newOrder))
+				newOrder = 1;
 			var html = Meteor.htmlForJs.singleListElement(newOrder, "", "");
 
 			$(event.target).parent().after(html);
@@ -137,6 +139,8 @@ Template.content.events({
 			createEmptyElement(docid, newOrder);
 		} else {
 			var newOrder = $(event.target).parent().next().attr("id") - 1;
+			if (isNaN(newOrder))
+				newOrder = 1;
 			var html = Meteor.htmlForJs.singleListElement(newOrder, "", "");
 
 			$(event.target).parent().parent().after(html);
