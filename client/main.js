@@ -16,6 +16,22 @@ Template.loginButtons.events({
 
 Template.menu.helpers({
   topic: function() {
+
+  	var lists = Meteor.users.find({_id: Meteor.userId()}).fetch();
+  	console.log(lists);
+
+
+
+  	Meteor.call("tempFunc");
+
+
+
+
+
+
+
+
+
   	// var user = Meteor.users.findOne({_id: Meteor.userId()});
   	// if (user) {
   	// 	var listData = ListData.findOne({"owner": Meteor.userId()})["data"];

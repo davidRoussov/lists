@@ -191,7 +191,9 @@ Meteor.methods({
 	},
 
 
-
+	tempFunc:function() {
+		
+	},
 
 
 	/*FUNCTION FOR SEEDING DB WITH SAMPLE DATA - NEEDS TO BE REMOVED*/
