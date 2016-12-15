@@ -12,12 +12,36 @@ Template.loginButtons.events({
 		$(".one-topic").next().remove();
 		$(".one-topic").remove();
 	}
-})
+});
 
 Template.menu.helpers({
   topic: function() {
-  	return getMenuTopics();
-  },
+  	// var user = Meteor.users.findOne({_id: Meteor.userId()});
+  	// if (user) {
+  	// 	var listData = ListData.findOne({"owner": Meteor.userId()})["data"];
+	  // 	listData = listData.sort(compare);
+	  // 	topicNames = listData.map(function(a) {
+	  // 		if (a.topicName != "")
+	  // 			return {"topicName": a.topicName, "_id": a._id}
+	  // 		else
+	  // 			return {"topicName": "[topic name]", "_id": a._id}
+	  // 	});
+	  // 	return topicNames;
+  	// }
+  }
+});
+
+Template.content.helpers({
+	topic: function() {
+		// var user = Meteor.users.findOne({_id: Meteor.userId()});
+  // 		if (user) {
+		// 	var listData = ListData.findOne({"owner": Meteor.userId()})["data"];
+		// 	for (var i = 0; i < listData.length; i++) {
+		// 		listData[i]["list"] = listData[i]["list"].sort(compare);
+		// 	}
+		// 	return listData;
+		// }
+	}
 });
 
 Template.body.events({
@@ -33,154 +57,224 @@ Template.body.events({
 			$(".dropdown-content").hide();
 		}
 	}
-})
-
-Template.topBar.events({
-	"click .js-add-new-topic":function(event) {
-		createNewTopic();
-	}
 });
 
 Template.menu.events({
-	"click .menu-button":function(event) {
-		var docid = $(event.target).attr("id");
-
-		//finding if topic is already shown, remove it if it is
-		if ($(".content-panel").find("#"+docid).length > 0) {
-			$(".content-panel").find("#"+docid).next().remove();
-			$(".content-panel").find("#"+docid).remove();
-			$(event.target).parent().parent().css("background-color", "#48A28E");
+	"click .js-menu-button":function(event) {
+		var topicid = $(event.target).attr("id");
+		var topic = $(".content-panel").find("#"+topicid);
+		if (topic.is(":visible")) {
+			topic.hide()
 		} else {
-			showList(docid);
-			$(event.target).parent().parent().css("background-color", "#83E1CC");
-		}
-
-
-
-	},
-	"click .js-topic-options":function(event) {
-
-		var nodeName = $(event.target).prop("nodeName");
-		if (nodeName === "BUTTON") {
-			$(event.target).next().show();
-		} else {
-			$(event.target).parent().next().show();
+			topic.appendTo(".content");
+			topic.show();
 		}
 	},
-	"click .js-delete-topic":function(event) {
-		var topicID = $(event.target).parent().parent().prev().children().first().attr("id");
-		deleteTopic(topicID);
-
-		$(".content #"+topicID).next().remove();
-		$(".content #"+topicID).remove();
+	"click .js-add-new-topic":function(event) {
+		Meteor.call("createNewTopic");
 	}
 });
-
-
-
 
 Template.content.events({
 	"click .js-list-element":function(event) {
-		showHideContent(event);
-	},
-	// show or hide content area when you press enter
-	"keypress .js-list-element":function(event) {
-		if (event.which === 13) {
-			showHideContent(event);
+		var contentAreaElement = $(event.target).next();
+		if (contentAreaElement.is(":visible")) {
+			contentAreaElement.hide();
+		} else {
+			contentAreaElement.show();
 		}
 	},
-	"change .js-list-element":function(event) {
-		var newTitle = $(event.target).val();$(event.target)
-		var docid = $(event.target).parent().parent().attr("id");
-		var order = $(event.target).parent().attr("id");
-		updateListElement(docid, newTitle, order, true, function() {
-			$(event.target).removeClass("list-element-changing");
-		});
-	},
+	
 	"keyup .js-list-element":function(event) {
-		// unsaved changes result in red highlight of text
-		$(event.target).addClass("list-element-changing");
-	},
-	"change .js-list-element-content":function(event) {
-		var newContent = $(event.target).val();
-		var docid = $(event.target).parent().parent().parent().attr("id");
-		var order = $(event.target).parent().parent().attr("id");
-		updateListElement(docid, newContent, order, false, function() {
-			$(event.target).removeClass("content-element-change");
-		});
+		// show or hide content area when you press enter
+		if (event.which === 13) {
+			var contentAreaElement = $(event.target).next();
+			if (contentAreaElement.is(":visible")) {
+				contentAreaElement.hide();
+			} else {
+				contentAreaElement.show();
+			}
+		}
+		// this is if the user presses down arrow where the focus will be brought to the textarea or  the next element 
+		else if (event.which === 40) { 
+			var textArea = $(event.target).next();
+			if (textArea.is(":visible")) {
+				textArea.focus();
+			} else {
+				textArea.parent().parent().next().children().eq(1).children().first().focus();
+			}
+		} 	
+		// the same as above but for up arrow
+		else if (event.which === 38) {
+			var textArea = $(event.target).parent().parent().prev().children().eq(1).children().eq(1);
+			if (textArea.is(":visible")) {
+				textArea.focus();
+			} else {
+				$(event.target).parent().parent().prev().children().eq(1).children().first().focus();
+			}
+		}
 	},
 	"keyup .js-list-element-content":function(event) {
-		// unsaved changes result in red highlight of textarea
-		$(event.target).addClass("content-element-change");
+		if (event.which === 40) { 
+			$(event.target).parent().parent().next().children().eq(1).children().first().focus();
+		} 	
+		else if (event.which === 38) {
+			$(event.target).prev().focus();
+		}		
 	},
-	"change .js-topic-name":function(event) {
-		var newTopicName = $(event.target).val();
-		var docid = $(event.target).parent().attr("id");
-		updateTopicName(docid, newTopicName, function() {
-			$(event.target).removeClass("list-element-changing");
+	"change .js-list-element":function(event) {
+		var inputField = $(event.target);
+		var newTitle = inputField.val();
+		var elementRank = inputField.parent().parent().attr("id");
+		var topicID = inputField.parent().parent().parent().parent().attr("id");
+
+		Meteor.call("updateListElement", topicID, newTitle, elementRank, function() {
+			inputField.css("color", "black");
 		});
 	},
-	"keyup .js-topic-name":function(event) {
-		// unsaved changes result in red highlight of text
-		$(event.target).addClass("list-element-changing");
+	"input .js-list-element":function(event) {
+		$(event.target).css("color", "red");
+	},
+	"change .js-list-element-content":function(event) {
+		var inputField = $(event.target);
+		var newContent = inputField.val();
+		var elementRank = inputField.parent().parent().attr("id");
+		var topicID = inputField.parent().parent().parent().parent().attr("id");
+
+		Meteor.call("updateListElementContent", topicID, elementRank, newContent, function() {
+			inputField.css("color", "black");
+		});
+	},
+	"change .js-topic-name":function(event) {
+		var inputField = $(event.target);
+		var topicID = inputField.parent().attr("id");
+		var newTopicName = inputField.val();
+
+		Meteor.call("updateTopicName", topicID, newTopicName, function() {
+			inputField.css("color", "black");
+		}); 
+	},
+	"input .js-topic-name":function(event) {
+		$(event.target).css("color", "red");
+	},
+	"input .js-list-element-content":function(event) {
+		$(event.target).css("color", "red");
 	},
 	"click .js-add-element":function(event) {
-		var docid = $(event.target).parent().parent().attr("id");
+		var button = $(event.currentTarget);
+		var docid = button.parent().parent().attr("id");
 		
-		var nodeName = $(event.target).prop("nodeName");
-		if (nodeName === "BUTTON") {
-			var newOrder = $(event.target).parent().next().attr("id") - 1;
-			if (isNaN(newOrder))
-				newOrder = 1;
-			var html = Meteor.htmlForJs.singleListElement(newOrder, "", "");
+		// if there is no next element, then this is the first one to be of rank 1
+		var newElementRank = button.parent().next().children().first().attr("id") - 1;
+		if (isNaN(newElementRank))
+			newElementRank = 1; 
 
-			$(event.target).parent().after(html);
+		Meteor.call("createNewElement", docid, newElementRank);
+	},
+	"click .js-delete-topic":function(event) {
+		$(event.target).confirmation(
+			{
+				onConfirm: function() {
+					var topicID = $(event.target).parent().parent().attr("id");
+					Meteor.call("deleteTopic", topicID);					
+				}
+			}
+		).confirmation("toggle");
+	},
+	"click .js-enable-element-deletion":function(event) {
+		var oneTopicDiv = $(event.currentTarget).parent().parent();
 
-			createEmptyElement(docid, newOrder);
+		if (Session.get("deleteElementMode")) {
+			oneTopicDiv.find(".js-check-element-box").css("display", "inline");
+
+			oneTopicDiv.find(".js-delete-list-element").css("display", "none");
+
+			$(event.currentTarget).css("text-decoration", "none");
+
+			Session.set("deleteElementMode", false);
 		} else {
-			var newOrder = $(event.target).parent().next().attr("id") - 1;
-			if (isNaN(newOrder))
-				newOrder = 1;
-			var html = Meteor.htmlForJs.singleListElement(newOrder, "", "");
+			oneTopicDiv.find(".js-check-element-box").css("display", "none");
 
-			$(event.target).parent().parent().after(html);
+			oneTopicDiv.find(".js-delete-list-element").css("display", "inline");
 
-			createEmptyElement(docid, newOrder);
+			$(event.currentTarget).css("text-decoration", "underline");
+
+			Session.set("deleteElementMode", true);
 		}
 	},
 	"click .js-delete-list-element":function(event) {
-		var docid, order;
+		var button = $(event.currentTarget);
+		var elementRank = button.parent().parent().attr('id');
+		var topicID = button.parent().parent().parent().parent().attr('id');
 
-		var nodeName = $(event.target).prop("nodeName");
-		if (nodeName === "BUTTON") {
-			docid = $(event.target).parent().parent().attr("id");
-			order = $(event.target).parent().attr("id");
-			$(event.target).parent().remove();
-		} else {
-			docid = $(event.target).parent().parent().parent().attr("id");
-			order = $(event.target).parent().parent().attr("id"); 
-			$(event.target).parent().parent().remove();
-		}
-
-		deleteListElement(docid, order);		
+		Meteor.call("deleteListElement", topicID, elementRank);
 	},
-	"mouseenter .js-delete-list-element":function(event) {
-		
-		var nodeName = $(event.target).prop("nodeName");
-		if (nodeName === "BUTTON") {
-			$(event.target).prev().css("background-color", "Tomato");
-		} else {
-			$(event.target).parent().prev().css("background-color", "Crimson");
-		}
-	},	
-	"mouseleave .js-delete-list-element":function(event) {
-		
-		var nodeName = $(event.target).prop("nodeName");
-		if (nodeName === "BUTTON") {
-			$(event.target).prev().css("background-color", "transparent");
-		} else {
-			$(event.target).parent().prev().css("background-color", "transparent");
-		}
+	"click .js-check-element-box":function(event) {
+		var checkbox = $(event.target);
+
+		var checked;
+		if (checkbox.is(":checked")) {checked = true;} else {checked = false;}
+
+		var elementRank = checkbox.parent().parent().attr('id');
+		var topicID = checkbox.parent().parent().parent().parent().attr('id');
+
+		Meteor.call("setElementChecked", topicID, elementRank, checked, function() {
+			if (checked) {
+				checkbox.parent().next().children().first().css("text-decoration", "line-through");
+			} else {
+				checkbox.parent().next().children().first().css("text-decoration", "none");
+			}
+		});
+	},
+	"click .js-refresh-checked-elements":function(event) {
+		Meteor.call("refreshCheckedElements");
 	}
 
 });
+
+Template.inputFields.rendered = function() {
+	this.$('.element-input-fields-container').sortable({
+		stop: function(e, ui) {
+
+			var topicID = $(ui.item.get(0)).parent().parent().attr("id");
+			var el = ui.item.get(0);
+			before = ui.item.prev().get(0);
+			after = ui.item.next().get(0);
+
+			if (!before) {
+				newRank = Blaze.getData(after).rank - 1;
+			} else if (!after) {
+				newRank = Blaze.getData(before).rank + 1;
+			} else if (before && after) {
+	        	newRank = (Blaze.getData(after).rank + Blaze.getData(before).rank)/2;				
+			}
+			
+			if (newRank) {
+				Meteor.call("updateListElementRank", topicID, Blaze.getData(el)._id, newRank);
+			}
+		}
+	});
+};
+
+Template.menu.rendered = function() {
+	this.$('.topic-buttons').sortable({
+		handle: 'button',
+		cancel: '',
+		stop: function(e, ui) {
+
+			var elementID = $(ui.item.get(0)).children().first().attr("id");
+			var beforeID = $(ui.item.prev().get(0)).children().first().attr("id");
+			var afterID = $(ui.item.next().get(0)).children().first().attr("id");
+
+			Meteor.call("updateTopicRank", elementID, beforeID, afterID);
+		}
+	});
+};
+
+function compare(a,b) {
+	if (a.rank < b.rank)
+		return -1;
+	if (a.rank > b.rank)
+		return 1;
+	return 0;
+}

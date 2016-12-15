@@ -6,45 +6,29 @@ html, body {
 .wrapper {
 	height: 100%;
 	width: 100%;
-	background-color: #83E1CC;
 	overflow: auto;
 }
 
 
 
+
+/* TOP PANEL*/
+
 .top-panel {
 	width: 100%;
-	height: 50px;
-	background-color: #225449;
+	height: 25px;
+	background-color: #585858;
 	border-bottom: 4px solid rgba(0,0,0,0.05);
 }
-.top-bar-buttons {
-	background-color: Transparent;
-	border: none;
-	color: white;
-}
-.top-bar-buttons:hover {
-	background-color: Transparent;
-	color: white;
-}
-.top-bar-buttons:focus {
-	outline: none !important;
-	background-color: transparent !important;
-	color: white;
-}
-.top-bar-buttons:active {
-	color: white;
-}
-
 
 #login-buttons {
 	float: right;
-	padding-right: 40px;
-	padding-top: 10px;
+	padding-right: 5px;
+	padding-top: 5px;
 }
 .login-link-text {
 	color: white;
-	font-size: 18px;
+	font-size: 14px;
 }
 .login-link-text:hover {
 	color: white;
@@ -55,48 +39,37 @@ html, body {
 
 
 
+
+
+
+/* SIDE BAR MENU PANEL*/
+
 .menu-panel {
-	display: inline-block;
-	background-color: #48A28E;
-	width: 20%;
 	height: 100%;
-	overflow: auto;
+	width: 10%;
+	background-color: #fafafa;
+	display: inline-block;
 }
-
-.menu-buttons {
-
-}
-
-.menu-button {
+.js-menu-button {
 	width: 100%;
-	outline: 0;
-	background-color: Transparent;
+	background-color: #fafafa;
 	border: none;
-	padding: 10px;
-	font-size: 18px;
-	color: white;
+	padding: 5px;
+	font-size: 16px;
+	outline: none;
 }
-.menu-button:hover {
-	background-color: #83E1CC;
-	color: black;
+.js-menu-button:hover{
+	background-color: white;
 }
-
-.menu-options-button {
-	float: right;
-	background-color: transparent;
+.js-add-new-topic {
+	background-color: transparent !important;
 	border: none;
-	padding-right: 10px;
-	z-index: 1;
+	outline: none !important;
 }
-.menu-options-button:hover {
-	background-color: transparent;
-}
-.menu-options-span {
-
-}
-
-.menu-table {
-	width: 100%;
+.js-add-new-topic:active {
+	background-color: transparent !important;
+	box-shadow: none !important;
+	outline: none !important;
 }
 
 
@@ -107,86 +80,31 @@ html, body {
 
 
 
-
-
-
-.dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: #f9f9f9;
-    min-width: 160px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    z-index: 2;
-}
-
-/* Links inside the dropdown */
-.dropdown-content li {
-    color: black;
-    padding: 12px 16px;
-    text-decoration: none;
-    display: block;
-    cursor: default;
-}
-
-/* Change color of dropdown links on hover */
-.dropdown-content li:hover {background-color: #f1f1f1}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+/*THE MAIN CONTENT*/
 .content-panel {
     display: inline-block;
     vertical-align: top;
-    width: 75%;
+    width: 85%;
     height: 100%;
 }
 
 .content {
-	padding-left: 40px;
-	padding-top: 20px;
 	width: 100%;
 	height: 100%;
 }
 
 .one-topic {
-	background-color: #A6F2E1;
-	padding: 10px;
+	padding-top: 10px;
+	padding-right: 10px;
+	padding-bottom: 10px;
 	border-radius: 6px;
 	width: 100%;
+	margin: 10px;
+	background-color: #E8F7FF;
+}
+
+.one-list-element {
+	padding-left: 30px;
 }
 
 .js-topic-name {
@@ -196,68 +114,80 @@ html, body {
 	width: 90%;
 	outline: none;
 	font-weight: bold;
+	padding-left: 10px;
 }
 
 .js-list-element {
 	background-color: Transparent;
 	border: none;
 	font-size: 18px;
-	width: 97%;
+	width: 100%;
 	outline: none;
 	border-radius:5px;
-}
-.list-element-changing:focus {
-	color: red;
 }
 
 .js-list-element-content {
 	width: 100%;
-	background-color: #CFFCF2;
+	background-color: white;
 	resize: none;
 }
-.content-element-change:focus {
-	outline: none !important;
-    border:1px solid red;
-    box-shadow: 0 0 10px #719ECE;
+
+
+
+
+.topic-options-buttons {
+	padding-bottom: 10px;
+	padding-left: 10px;
 }
-
-hr {
-	padding: 0px;
-	margin: 0px;
-	border-color: black;
-}
-
-
-
-
-.js-add-element {
+.js-add-element, .js-delete-topic, .js-enable-element-deletion, .js-refresh-checked-elements {
 	background-color: transparent;
 	border: none;
 	padding: 0px;
 }
-.js-add-element:focus, .js-add-element:active {
+.js-add-element, .js-delete-topic, .js-enable-element-deletion {
+	padding-right: 5px;
+}
+.js-add-element:focus, .js-add-element:active, 
+.js-delete-topic:focus, .js-delete-topic:active,  
+.js-enable-element-deletion:focus, .js-enable-element-deletion:active
+.js-refresh-checked-elements:focus, .js-refresh-checked-elements:active {
 	outline: none !important;
+	background-color: transparent !important;
 }
-.js-add-element:hover {
+.js-add-element:hover, 
+.js-delete-topic:hover, 
+.js-enable-element-deletion:hover,
+.js-refresh-checked-elements:hover {
 	text-decoration: underline;
-}
-.add-element-container {
-	padding-bottom: 20px;
+	background-color: transparent !important;
 }
 
 
+
+
+.list-options {
+	display: inline-block;
+}
 
 
 .js-delete-list-element {
-	float: right;
 	background-color: transparent;
 	border: none;
+	display: none;
 
 }
 .js-delete-list-element:focus, .js-delete-list-element:active {
 	outline: none !important;
-	background-color: transparent;
+	background-color: transparent !important;
 }
 .js-delete-list-element:hover {
-	background-color: transparent
+	background-color: transparent !important;
 }
+
+
+.element-input-fields {
+	display: inline-block;
+	width: 97%;
+}
+
+

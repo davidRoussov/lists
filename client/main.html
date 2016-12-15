@@ -11,62 +11,42 @@
   </div>
 </body>
 
+
 <template name="topBar">
 
   <div class="top-panel">
 
-    <!-- click this to create a new topic -->
-    <button type="button" class="btn btn-default btn-lg top-bar-buttons js-add-new-topic">
-      <span class="glyphicon glyphicon-plus top-bar-buttons" aria-hidden="true"></span> Add new topic
-    </button>
-
     {{> loginButtons align="right"}}
-
 
   </div>
 
 </template>
+
 
 <template name="menu">
 
   <div class="menu-panel">
     <div class="menu-buttons">
 
-      {{#if currentUser}}
+      <ul class="topic-buttons" style="list-style: none; padding: 0;">
+        {{#each topic}}
+        <li>
+          <button type="button" id={{_id}} class="js-menu-button">{{topicName}}</button>
+        </li>
+        {{/each}}
+      </ul>
 
-      {{#each topic}}
-
-
-      <table cellpadding="0" cellspacing="0" class="menu-table">
-        <tr>
-          <td>
-            <button class="menu-button text-left" id={{_id}}>{{topicName}}</button></td>
-          <td>
-            <button type="button" class="btn btn-default btn-xs menu-options-button js-topic-options">
-              <span class="glyphicon glyphicon-option-horizontal menu-options-span js-topic-options" aria-hidden="true"></span>
-            </button>
-
-
-            <!-- Dropdown menu that appears when you click the button or span above-->
-            <div class="dropdown-content">
-              <li class="js-delete-topic">Delete</li>
-            </div>
-
-
-          </td>
-        </tr>
-      </table>
-
-      {{/each}}
-
-      {{/if}}
-
+      <!--click this to create a new topic -->
+      <button type="button" class="btn btn-default btn-lg js-add-new-topic">
+        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+      </button>
 
     </div>
 
   </div>
 
 </template>
+
 
 <template name="content">
 
@@ -74,8 +54,87 @@
 
       <div class="content">
 
+      {{#each topic}}
+
+        <div class="one-topic" id={{_id}} hidden>
+
+          <input type="text" placeholder="enter a topic name" class="js-topic-name" value={{topicName}}>
+
+          <div class="topic-options-buttons">
+            <button class="btn btn-default js-add-element" aria-label="Left Align">
+              <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+              Add element
+            </button>
+
+            <button class="btn btn-default js-delete-topic" aria-label="Left Align">
+              <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+              Delete topic
+            </button>
+
+            <button class="btn btn-default js-enable-element-deletion" aria-label="Left Align">
+              <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+              Delete elements
+            </button>
+
+            <button class="btn btn-default js-refresh-checked-elements" aria-label="Left Align">
+              <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span>
+              Uncheck all elements
+            </button>
+
+          </div>
+
+
+          {{> inputFields}}
+
+        </div>
+        
+
+      {{/each}}
+
       </div>
 
     </div>
+
+</template>
+
+<template name="inputFields">
+
+  <div class="element-input-fields-container">
+
+    {{#each list}}
+
+      <div id={{rank}} class="one-list-element">
+
+        <div class="list-options">
+          <button class="btn btn-default btn-xs js-delete-list-element">
+            <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+          </button>
+
+          {{#if checked}}
+          <input type="checkbox" class="js-check-element-box" checked>
+          {{else}}
+          <input type="checkbox" class="js-check-element-box">
+          {{/if}}
+
+        </div>
+
+        <div class="element-input-fields">
+
+          {{#if checked}}
+          <input type="text" placeholder="enter a title" class="js-list-element" value={{title}} style="text-decoration: line-through;">
+          {{else}}
+          <input type="text" placeholder="enter a title" class="js-list-element" value={{title}}>
+          {{/if}}
+
+
+          <textarea class="js-list-element-content" value={{content}} hidden></textarea>
+        
+        </div>
+
+      </div>
+
+
+    {{/each}}
+  </div>
 
 </template>
