@@ -17,12 +17,21 @@ Template.loginButtons.events({
 Template.menu.helpers({
   topic: function() {
 
-  	var listCursor = ListData.find({_id: Meteor.userId()});
-  	var list;
-	listCursor.forEach(function(list) {
-		console.log(list);
-	});
+    processed_data = []; 
 
+    Deps.autorun(function (c) {
+        console.log('run');
+        var cursor = ListData.find({_id: Meteor.userId()});
+        console.log(cursor);
+        if (!cursor.count()) console.log(cursor.count());
+
+        cursor.forEach(function (row) {
+            console.log(row);
+            processed_data.push(row);
+        }); 
+
+        c.stop();
+    }); 
 
 
   	Meteor.call("tempFunc");
