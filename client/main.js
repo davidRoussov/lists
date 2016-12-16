@@ -17,7 +17,7 @@ Template.loginButtons.events({
 Template.menu.helpers({
   topic: function() {
 
-  	var lists = Meteor.users.find({_id: Meteor.userId()}).fetch();
+  	var lists = Meteor.users.find({_id: Meteor.userId()});
   	console.log(lists);
 
 
