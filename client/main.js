@@ -15,6 +15,21 @@ Accounts.ui.config({
 
 
 
+
+
+
+import { Random } from 'meteor/random';	
+
+
+
+
+
+
+
+
+
+
+
 Template.loginButtons.events({
 	"click #login-buttons-logout":function(event) {
 		$(".one-topic").next().remove();
@@ -31,14 +46,55 @@ Template.menu.helpers({
 
 
 
+
+
+
+
+  		var json = {
+  			"owner": Meteor.userId(),
+  			"userName": Meteor.user().username,
+  			"data": []
+  		};
+
+  		var topicRank = 0;
+
   		var cursor = ListData.find({"owner": Meteor.userId()});
   		cursor.forEach(function(list) {
-  			console.log(list);
+
+
+  			var topicjson = {
+  				"topicName": list["topicName"],
+  				"_id": Random.id(),
+  				"rank": topicRank,
+  				"list": []
+  			};
+
+
+  			topicRank = topicRank + 1;
+
+
+  			for (var i = 0; i < list["list"].length; i++) {
+  				var listjson = {
+  					"title": list["list"][i]["title"],
+  					"content": list["list"][i]["content"],
+  					"checked": false,
+  					"rank": list["list"][i]["order"],
+  					"_id": Random.id()
+  				}
+
+  				topicjson["list"].push(listjson);
+  			}
+
+
+  			json["data"].push(topicjson);
+
+
+
   		});
 
 
 
-
+  		console.log(json);
 
 
 
