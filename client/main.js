@@ -7,29 +7,6 @@ Accounts.ui.config({
 	passwordSignupFields: "USERNAME_ONLY",
 });
 
-
-
-
-
-
-
-
-
-
-
-
-import { Random } from 'meteor/random';	
-
-
-
-
-
-
-
-
-
-
-
 Template.loginButtons.events({
 	"click #login-buttons-logout":function(event) {
 		$(".one-topic").next().remove();
@@ -41,92 +18,29 @@ Template.menu.helpers({
   topic: function() {
   	var user = Meteor.users.findOne({_id: Meteor.userId()});
   	if (user) {
-
-
-
-
-
-
-
-
-
-  		var json = {
-  			"owner": Meteor.userId(),
-  			"userName": Meteor.user().username,
-  			"data": []
-  		};
-
-  		var topicRank = 0;
-
-  		var cursor = ListData.find({"owner": Meteor.userId()});
-  		cursor.forEach(function(list) {
-
-
-  			var topicjson = {
-  				"topicName": list["topicName"],
-  				"_id": Random.id(),
-  				"rank": topicRank,
-  				"list": []
-  			};
-
-
-  			topicRank = topicRank + 1;
-
-
-  			for (var i = 0; i < list["list"].length; i++) {
-  				var listjson = {
-  					"title": list["list"][i]["title"],
-  					"content": list["list"][i]["content"],
-  					"checked": false,
-  					"rank": list["list"][i]["order"],
-  					"_id": Random.id()
-  				}
-
-  				topicjson["list"].push(listjson);
-  			}
-
-
-  			json["data"].push(topicjson);
-
-
-
-  		});
-
-
-
-  		Meteor.call("tempFunc", json);
-
-
-
-
-
-
-
-
-
-  		// var listData = ListData.findOne({"owner": Meteor.userId()})["data"];
-	  	// listData = listData.sort(compare);
-	  	// topicNames = listData.map(function(a) {
-	  	// 	if (a.topicName != "")
-	  	// 		return {"topicName": a.topicName, "_id": a._id}
-	  	// 	else
-	  	// 		return {"topicName": "[topic name]", "_id": a._id}
-	  	// });
-	  	// return topicNames;
+  		var listData = ListData.findOne({"owner": Meteor.userId()})["data"];
+	  	listData = listData.sort(compare);
+	  	topicNames = listData.map(function(a) {
+	  		if (a.topicName != "")
+	  			return {"topicName": a.topicName, "_id": a._id}
+	  		else
+	  			return {"topicName": "[topic name]", "_id": a._id}
+	  	});
+	  	return topicNames;
   	}
   }
 });
 
 Template.content.helpers({
 	topic: function() {
-		// var user = Meteor.users.findOne({_id: Meteor.userId()});
-  // 		if (user) {
-		// 	var listData = ListData.findOne({"owner": Meteor.userId()})["data"];
-		// 	for (var i = 0; i < listData.length; i++) {
-		// 		listData[i]["list"] = listData[i]["list"].sort(compare);
-		// 	}
-		// 	return listData;
-		// }
+		var user = Meteor.users.findOne({_id: Meteor.userId()});
+  		if (user) {
+			var listData = ListData.findOne({"owner": Meteor.userId()})["data"];
+			for (var i = 0; i < listData.length; i++) {
+				listData[i]["list"] = listData[i]["list"].sort(compare);
+			}
+			return listData;
+		}
 	}
 });
 

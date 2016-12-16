@@ -191,12 +191,7 @@ Meteor.methods({
 	},
 
 
-	tempFunc:function(json) {
-		ListData.insert(json);
-	},
-
-
-	/*FUNCTION FOR SEEDING DB WITH SAMPLE DATA - NEEDS TO BE REMOVED*/
+	/*FUNCTION FOR SEEDING DB WITH SAMPLE DATA*/
 	seedDB:function() {
 		var listData = 
 			{
