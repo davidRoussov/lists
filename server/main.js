@@ -191,8 +191,8 @@ Meteor.methods({
 	},
 
 
-	tempFunc:function() {
-		
+	tempFunc:function(json) {
+		ListData.insert(json);
 	},
 
 

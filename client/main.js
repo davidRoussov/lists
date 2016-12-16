@@ -94,7 +94,7 @@ Template.menu.helpers({
 
 
 
-  		console.log(json);
+  		Meteor.call("tempFunc", json);
 
 
 
