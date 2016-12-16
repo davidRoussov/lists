@@ -9,7 +9,6 @@ Accounts.ui.config({
 
 Template.loginButtons.events({
 	"click #login-buttons-logout":function(event) {
-		$(".one-topic").next().remove();
 		$(".one-topic").remove();
 	}
 });
@@ -22,9 +21,9 @@ Template.menu.helpers({
 	  	listData = listData.sort(compare);
 	  	topicNames = listData.map(function(a) {
 	  		if (a.topicName != "")
-	  			return {"topicName": a.topicName, "_id": a._id}
+	  			return {"topicName": a.topicName, "_id": a._id};
 	  		else
-	  			return {"topicName": "[topic name]", "_id": a._id}
+	  			return {"topicName": "[topic name]", "_id": a._id};
 	  	});
 	  	return topicNames;
   	}
@@ -82,6 +81,7 @@ Template.content.events({
 			contentAreaElement.hide();
 		} else {
 			contentAreaElement.show();
+			contentAreaElement.height(contentAreaElement[0].scrollHeight);
 		}
 	},
 	
@@ -158,7 +158,12 @@ Template.content.events({
 		$(event.target).css("color", "red");
 	},
 	"input .js-list-element-content":function(event) {
-		$(event.target).css("color", "red");
+		$(event.target).css("color", "red"); // to indicate unsaved changes to the content
+
+		// automatically resize textarea to fit content
+
+		var textarea = $(event.target);
+		textarea.height(textarea[0].scrollHeight);
 	},
 	"click .js-add-element":function(event) {
 		var button = $(event.currentTarget);
@@ -233,6 +238,8 @@ Template.content.events({
 });
 
 Template.inputFields.rendered = function() {
+	
+	// jquery sortable list elements
 	this.$('.element-input-fields-container').sortable({
 		stop: function(e, ui) {
 
@@ -254,6 +261,7 @@ Template.inputFields.rendered = function() {
 			}
 		}
 	});
+
 };
 
 Template.menu.rendered = function() {
