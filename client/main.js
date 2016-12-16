@@ -7,6 +7,14 @@ Accounts.ui.config({
 	passwordSignupFields: "USERNAME_ONLY",
 });
 
+
+
+
+
+
+
+
+
 Template.loginButtons.events({
 	"click #login-buttons-logout":function(event) {
 		$(".one-topic").next().remove();
@@ -16,25 +24,17 @@ Template.loginButtons.events({
 
 Template.menu.helpers({
   topic: function() {
-
-    processed_data = []; 
-
-    Deps.autorun(function (c) {
-        console.log('run');
-        var cursor = ListData.find({_id: Meteor.userId()});
-        console.log(cursor);
-        if (!cursor.count()) console.log(cursor.count());
-
-        cursor.forEach(function (row) {
-            console.log(row);
-            processed_data.push(row);
-        }); 
-
-        c.stop();
-    }); 
+  	var user = Meteor.users.findOne({_id: Meteor.userId()});
+  	if (user) {
 
 
-  	Meteor.call("tempFunc");
+
+
+
+  		var cursor = ListData.find({"owner": Meteor.userId()});
+  		cursor.forEach(function(list) {
+  			console.log(list);
+  		});
 
 
 
@@ -44,18 +44,20 @@ Template.menu.helpers({
 
 
 
-  	// var user = Meteor.users.findOne({_id: Meteor.userId()});
-  	// if (user) {
-  	// 	var listData = ListData.findOne({"owner": Meteor.userId()})["data"];
-	  // 	listData = listData.sort(compare);
-	  // 	topicNames = listData.map(function(a) {
-	  // 		if (a.topicName != "")
-	  // 			return {"topicName": a.topicName, "_id": a._id}
-	  // 		else
-	  // 			return {"topicName": "[topic name]", "_id": a._id}
-	  // 	});
-	  // 	return topicNames;
-  	// }
+
+
+
+
+  		// var listData = ListData.findOne({"owner": Meteor.userId()})["data"];
+	  	// listData = listData.sort(compare);
+	  	// topicNames = listData.map(function(a) {
+	  	// 	if (a.topicName != "")
+	  	// 		return {"topicName": a.topicName, "_id": a._id}
+	  	// 	else
+	  	// 		return {"topicName": "[topic name]", "_id": a._id}
+	  	// });
+	  	// return topicNames;
+  	}
   }
 });
 
