@@ -17,8 +17,11 @@ Template.loginButtons.events({
 Template.menu.helpers({
   topic: function() {
 
-  	var lists = Meteor.users.find({_id: Meteor.userId()});
-  	console.log(lists);
+  	var listCursor = ListData.find({_id: Meteor.userId()});
+  	var list;
+	listCursor.forEach(function(list) {
+		console.log(list);
+	});
 
 
 
