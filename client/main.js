@@ -1,7 +1,10 @@
 import { Template } from 'meteor/templating';
 import { Accounts } from 'meteor/accounts-base';
-
 import './main.html';
+
+// demo account:
+// username: demo
+// password: asdasd
 
 Accounts.ui.config({
 	passwordSignupFields: "USERNAME_ONLY",
@@ -76,6 +79,21 @@ Template.menu.events({
 
 Template.content.events({
 	"click .js-list-element":function(event) {
+		
+		if (!is.mobile()) return; // click to open textarea on mobile, dbclick to open on windows
+
+		var contentAreaElement = $(event.target).next();
+		if (contentAreaElement.is(":visible")) {
+			contentAreaElement.hide();
+		} else {
+			contentAreaElement.show();
+			contentAreaElement.height(contentAreaElement[0].scrollHeight);
+		}
+	},
+	"dblclick .js-list-element":function(event) {
+		
+		if (is.mobile()) return; // don't know if necessary, but I don't want this function to run on mobile since click will be used
+
 		var contentAreaElement = $(event.target).next();
 		if (contentAreaElement.is(":visible")) {
 			contentAreaElement.hide();
