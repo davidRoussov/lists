@@ -76,6 +76,7 @@ Template.menu.events({
 
 			menuButton.css("background-color", "#E0F7E0"); // highlight menu button green when selecting topic
 		}
+
 	},
 	"click .js-add-new-topic":function(event) {
 		Meteor.call("createNewTopic");
@@ -144,6 +145,10 @@ Template.content.events({
 		else if (event.which === 38) {
 			$(event.target).prev().focus();
 		}		
+
+		// automatically resize textarea to fit content
+		var textarea = $(event.target);
+		textarea.height(textarea[0].scrollHeight - 10);
 	},
 	"change .js-list-element":function(event) {
 		var inputField = $(event.target);
@@ -182,11 +187,6 @@ Template.content.events({
 	},
 	"input .js-list-element-content":function(event) {
 		$(event.target).css("color", "red"); // to indicate unsaved changes to the content
-
-		// automatically resize textarea to fit content
-
-		var textarea = $(event.target);
-		textarea.height(textarea[0].scrollHeight);
 	},
 	"click .js-add-element":function(event) {
 		var button = $(event.currentTarget);
