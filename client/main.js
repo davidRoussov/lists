@@ -63,13 +63,18 @@ Template.body.events({
 
 Template.menu.events({
 	"click .js-menu-button":function(event) {
+		var menuButton = $(event.target);
 		var topicid = $(event.target).attr("id");
 		var topic = $(".content-panel").find("#"+topicid);
 		if (topic.is(":visible")) {
 			topic.hide()
+
+			menuButton.css("background-color", ""); // remove button highlight when deselecting topic
 		} else {
 			topic.appendTo(".content");
 			topic.show();
+
+			menuButton.css("background-color", "#E0F7E0"); // highlight menu button green when selecting topic
 		}
 	},
 	"click .js-add-new-topic":function(event) {
