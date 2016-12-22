@@ -95,6 +95,7 @@ Template.content.events({
 			contentAreaElement.show();
 			contentAreaElement.height(contentAreaElement[0].scrollHeight);
 		}
+
 	},
 	"dblclick .js-list-element":function(event) {
 		
@@ -190,6 +191,9 @@ Template.content.events({
 	},
 	"click .js-add-element":function(event) {
 		var button = $(event.currentTarget);
+
+		button.prop("disabled", true);
+
 		var docid = button.parent().parent().attr("id");
 		
 		// if there is no next element, then this is the first one to be of rank 1
@@ -197,7 +201,9 @@ Template.content.events({
 		if (isNaN(newElementRank))
 			newElementRank = 1; 
 
-		Meteor.call("createNewElement", docid, newElementRank);
+		Meteor.call("createNewElement", docid, newElementRank, function() {
+			button.prop("disabled", false);
+		});
 	},
 	"click .js-delete-topic":function(event) {
 		$(event.target).confirmation(
