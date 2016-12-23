@@ -192,7 +192,7 @@ Template.content.events({
 	"click .js-add-element":function(event) {
 		var button = $(event.currentTarget);
 
-		button.prop("disabled", true);
+		button.prop("disabled", true); // this is because database and reactivity can't keep up if user clicks add element button quickly
 
 		var docid = button.parent().parent().attr("id");
 		
@@ -261,7 +261,10 @@ Template.content.events({
 		});
 	},
 	"click .js-refresh-checked-elements":function(event) {
-		Meteor.call("refreshCheckedElements");
+		var button = $(event.target);
+		var topicID = button.parent().parent().attr("id");
+
+		Meteor.call("refreshCheckedElements", topicID);
 	}
 
 });

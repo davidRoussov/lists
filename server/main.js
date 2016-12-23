@@ -162,13 +162,17 @@ Meteor.methods({
 
 		createAndUpdate(data);
 	},
-	refreshCheckedElements:function() {
+	refreshCheckedElements:function(topicID) {
 		var data = ListData.findOne({"owner": Meteor.userId()})["data"];
 
 		for (var i = 0; i < data.length; i++) {
-			for (var j = 0; j < data[i]["list"].length; j++) {
-				data[i]["list"][j]["checked"] = false;
+
+			if (data[i]._id === topicID) {
+				for (var j = 0; j < data[i]["list"].length; j++) {
+					data[i]["list"][j]["checked"] = false;
+				}				
 			}
+
 		}
 
 		createAndUpdate(data);
