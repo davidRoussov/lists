@@ -139,25 +139,27 @@ html, body {
 	padding-bottom: 10px;
 	padding-left: 10px;
 }
-.js-add-element, .js-delete-topic, .js-enable-element-deletion, .js-refresh-checked-elements {
+.js-add-element, .js-delete-topic, .js-enable-element-deletion, .js-refresh-checked-elements, .js-hide-all-elements-content {
 	background-color: transparent;
 	border: none;
 	padding: 0px;
 }
-.js-add-element, .js-delete-topic, .js-enable-element-deletion {
+.js-add-element, .js-delete-topic, .js-enable-element-deletion, .js-refresh-checked-elements {
 	padding-right: 5px;
 }
 .js-add-element:focus, .js-add-element:active, 
 .js-delete-topic:focus, .js-delete-topic:active,  
-.js-enable-element-deletion:focus, .js-enable-element-deletion:active
-.js-refresh-checked-elements:focus, .js-refresh-checked-elements:active {
+.js-enable-element-deletion:focus, .js-enable-element-deletion:active,
+.js-refresh-checked-elements:focus, .js-refresh-checked-elements:active,
+.js-hide-all-elements-content:focus, .js-hide-all-elements-content:active {
 	outline: none !important;
 	background-color: transparent !important;
 }
 .js-add-element:hover, 
 .js-delete-topic:hover, 
 .js-enable-element-deletion:hover,
-.js-refresh-checked-elements:hover {
+.js-refresh-checked-elements:hover
+.js-hide-all-elements-content:hover {
 	text-decoration: underline;
 	background-color: transparent !important;
 }

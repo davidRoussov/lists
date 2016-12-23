@@ -265,6 +265,15 @@ Template.content.events({
 		var topicID = button.parent().parent().attr("id");
 
 		Meteor.call("refreshCheckedElements", topicID);
+	},
+	//button under topic name that hides all open content areas for the given topic
+	"click .js-hide-all-elements-content":function(event) {
+		var button = $(event.target);
+		var topicID = button.parent().parent().attr("id");
+
+		$(".content " + "#" + topicID + " .js-list-element-content").each(function() {
+			$(this).hide();
+		});
 	}
 
 });
