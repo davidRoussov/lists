@@ -104,10 +104,22 @@ Template.content.events({
 		var contentAreaElement = $(event.target).next();
 		if (contentAreaElement.is(":visible")) {
 			contentAreaElement.hide();
+
+			window.getSelection().removeAllRanges(); // unhighlight input when closing textarea - just aesthetics - I probably won't be likely to be changing the inputs when I usually finish viewing the textareas
 		} else {
 			contentAreaElement.show();
 			contentAreaElement.height(contentAreaElement[0].scrollHeight);
+
+			contentAreaElement.focus(); //so that input isn't highlighted and user can begin typing in textarea straight away
 		}
+
+
+
+
+
+
+
+
 	},
 	
 	"keyup .js-list-element":function(event) {
