@@ -48,7 +48,7 @@ html, body {
 	height: 100%;
 	width: 10%;
 	background-color: #fafafa;
-	display: inline-block;
+	float: left;
 }
 .js-menu-button {
 	width: 100%;
@@ -82,10 +82,9 @@ html, body {
 
 /*THE MAIN CONTENT*/
 .content-panel {
-    display: inline-block;
-    vertical-align: top;
-    width: 85%;
+	overflow: hidden;
     height: 100%;
+    padding-right: 20px;
 }
 
 .content {
