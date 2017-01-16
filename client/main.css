@@ -94,7 +94,6 @@ html, body {
 
 .one-topic {
 	padding-top: 10px;
-	padding-right: 10px;
 	padding-bottom: 10px;
 	border-radius: 6px;
 	width: 100%;
@@ -104,6 +103,9 @@ html, body {
 
 .one-list-element {
 	padding-left: 30px;
+}
+.one-list-element:hover {
+	background-color: #d5dce8;
 }
 
 .js-topic-name {
@@ -167,7 +169,9 @@ html, body {
 
 
 .list-options {
-	display: inline-block;
+	float: left;
+	padding-right: 5px;
+	padding-top: 5px;
 }
 
 
@@ -187,8 +191,7 @@ html, body {
 
 
 .element-input-fields {
-	display: inline-block;
-	width: 97%;
+	overflow: hidden;
 }
 
 
