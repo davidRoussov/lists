@@ -83,14 +83,14 @@ Meteor.methods({
 
 		createAndUpdate(data);
 	},
-	createNewTopic:function() {
+	createNewTopic:function(newTopic) {
 		var userExistence = ListData.findOne({"owner": Meteor.userId()});
 
 		var highestRank = getHighestRank();
 
 		var topicID = Random.id();
 
-		var json = {"topicName": "", "_id": topicID, "rank": highestRank + 1, list: []};
+		var json = {"topicName": newTopic, "_id": topicID, "rank": highestRank + 1, list: []};
 
 		if (typeof userExistence != "undefined") {
 			var data = ListData.findOne({"owner": Meteor.userId()})["data"];

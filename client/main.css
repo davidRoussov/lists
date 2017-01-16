@@ -61,12 +61,12 @@ html, body {
 .js-menu-button:hover{
 	background-color: white;
 }
-.js-add-new-topic {
+.add-new-topic-button {
 	background-color: transparent !important;
 	border: none;
 	outline: none !important;
 }
-.js-add-new-topic:active {
+.add-new-topic-button:active {
 	background-color: transparent !important;
 	box-shadow: none !important;
 	outline: none !important;

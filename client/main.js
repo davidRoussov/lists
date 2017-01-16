@@ -22,13 +22,8 @@ Template.menu.helpers({
   	if (user) {
   		var listData = ListData.findOne({"owner": Meteor.userId()})["data"];
 	  	listData = listData.sort(compare);
-	  	topicNames = listData.map(function(a) {
-	  		if (a.topicName != "")
-	  			return {"topicName": a.topicName, "_id": a._id};
-	  		else
-	  			return {"topicName": "[topic name]", "_id": a._id};
-	  	});
-	  	return topicNames;
+
+	  	return listData;
   	}
   }
 });
@@ -79,7 +74,12 @@ Template.menu.events({
 
 	},
 	"click .js-add-new-topic":function(event) {
-		Meteor.call("createNewTopic");
+
+		var newTopic = $(".userInputNewTopic").val();
+		Meteor.call("createNewTopic", newTopic, function() {
+	    	$('.modal').modal('hide');
+	    	$('.modal-backdrop').remove();
+		});
 	}
 });
 
