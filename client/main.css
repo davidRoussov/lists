@@ -82,7 +82,7 @@ html, body {
 
 /*THE MAIN CONTENT*/
 .content-panel {
-	overflow: hidden;
+	overflow: auto;
     height: 100%;
     padding-right: 20px;
 }
