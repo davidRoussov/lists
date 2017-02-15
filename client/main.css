@@ -103,6 +103,7 @@ html, body {
 
 .one-list-element {
 	padding-left: 30px;
+	padding-bottom: 1px;
 }
 .one-list-element:hover {
 	background-color: #d5dce8;
@@ -140,27 +141,32 @@ html, body {
 	padding-bottom: 10px;
 	padding-left: 10px;
 }
-.js-add-element, .js-delete-topic, .js-enable-element-deletion, .js-refresh-checked-elements, .js-hide-all-elements-content {
+.js-add-element, .js-delete-topic, .js-enable-element-deletion, .js-refresh-checked-elements, .js-hide-all-elements-content, .js-color-elements, .js-show-checkboxes {
 	background-color: transparent;
 	border: none;
 	padding: 0px;
+	outline: none !important;
 }
-.js-add-element, .js-delete-topic, .js-enable-element-deletion, .js-refresh-checked-elements {
+.js-add-element, .js-delete-topic, .js-enable-element-deletion, .js-refresh-checked-elements, .js-hide-all-elements-content, .js-color-elements {
 	padding-right: 5px;
 }
 .js-add-element:focus, .js-add-element:active, 
 .js-delete-topic:focus, .js-delete-topic:active,  
 .js-enable-element-deletion:focus, .js-enable-element-deletion:active,
 .js-refresh-checked-elements:focus, .js-refresh-checked-elements:active,
-.js-hide-all-elements-content:focus, .js-hide-all-elements-content:active {
+.js-hide-all-elements-content:focus, .js-hide-all-elements-content:active,
+.js-color-elements:focus, .js-color-elements:active
+.js-show-checkboxes:focus, .js-show-checkboxes:active {
 	outline: none !important;
 	background-color: transparent !important;
 }
 .js-add-element:hover, 
 .js-delete-topic:hover, 
 .js-enable-element-deletion:hover,
-.js-refresh-checked-elements:hover
-.js-hide-all-elements-content:hover {
+.js-refresh-checked-elements:hover,
+.js-hide-all-elements-content:hover,
+.js-color-elements:hover,
+.js-show-checkboxes:hover {
 	text-decoration: underline;
 	background-color: transparent !important;
 }
@@ -188,6 +194,53 @@ html, body {
 .js-delete-list-element:hover {
 	background-color: transparent !important;
 }
+
+
+
+
+
+.js-expand-element-button {
+	background-color: transparent;
+	border: none;
+}
+.js-expand-element-button:focus, .js-expand-element-button:active {
+	outline: none !important;
+	background-color: transparent !important;
+}
+.js-expand-element-button:hover {
+	background-color: transparent !important;
+}
+
+
+
+.js-check-element-box {
+	display: none;
+}
+
+
+
+
+
+
+
+
+
+
+
+.js-change-element-color {
+	background-color: transparent;
+	border: none;
+	display: none;
+}
+.js-change-element-color:focus, .js-change-element-color:active {
+	outline: none !important;
+	background-color: transparent !important;
+}
+.js-change-element-color:hover {
+	background-color: transparent !important;
+}
+
+
 
 
 .element-input-fields {

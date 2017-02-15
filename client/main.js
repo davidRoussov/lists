@@ -41,6 +41,12 @@ Template.content.helpers({
 	}
 });
 
+Template.inputFields.helpers({
+	checkboxMode: function() {
+		return Session.get("showCheckboxesMode");
+	}
+});
+
 Template.body.events({
 	// closing dropdown menu if you click anywhere in the main container
 	"click .wrapper":function(event) {
@@ -84,42 +90,51 @@ Template.menu.events({
 });
 
 Template.content.events({
-	"click .js-list-element":function(event) {
+	// "click .js-list-element":function(event) {
 		
-		if (!is.mobile()) return; // click to open textarea on mobile, dbclick to open on windows
+	// 	if (!is.mobile()) return; // click to open textarea on mobile, dbclick to open on windows
 
-		var contentAreaElement = $(event.target).next();
-		if (contentAreaElement.is(":visible")) {
-			contentAreaElement.hide();
-		} else {
-			contentAreaElement.show();
-			contentAreaElement.height(contentAreaElement[0].scrollHeight);
-		}
+	// 	var contentAreaElement = $(event.target).next();
+	// 	if (contentAreaElement.is(":visible")) {
+	// 		contentAreaElement.hide();
+	// 	} else {
+	// 		contentAreaElement.show();
+	// 		contentAreaElement.height(contentAreaElement[0].scrollHeight);
+	// 	}
 
-	},
-	"dblclick .js-list-element":function(event) {
+	// },
+	// "dblclick .js-list-element":function(event) {
 		
-		if (is.mobile()) return; // don't know if necessary, but I don't want this function to run on mobile since click will be used
+	// 	if (is.mobile()) return; // don't know if necessary, but I don't want this function to run on mobile since click will be used
 
-		var contentAreaElement = $(event.target).next();
-		if (contentAreaElement.is(":visible")) {
-			contentAreaElement.hide();
+	// 	var contentAreaElement = $(event.target).next();
+	// 	if (contentAreaElement.is(":visible")) {
+	// 		contentAreaElement.hide();
 
-			window.getSelection().removeAllRanges(); // unhighlight input when closing textarea - just aesthetics - I probably won't be likely to be changing the inputs when I usually finish viewing the textareas
+	// 		window.getSelection().removeAllRanges(); // unhighlight input when closing textarea - just aesthetics - I probably won't be likely to be changing the inputs when I usually finish viewing the textareas
+	// 	} else {
+	// 		contentAreaElement.show();
+	// 		contentAreaElement.height(contentAreaElement[0].scrollHeight);
+
+	// 		contentAreaElement.focus(); //so that input isn't highlighted and user can begin typing in textarea straight away
+	// 	}
+
+	// },
+
+	"click .js-expand-element-button":function(event) {
+
+		var button = $(event.currentTarget);
+		var textarea = button.parent().next().children().eq(1);
+
+		button.children().first().toggleClass("glyphicon-menu-down");
+		button.children().first().toggleClass("glyphicon-menu-up");
+
+		if (textarea.is(":visible")) {
+			textarea.hide();
 		} else {
-			contentAreaElement.show();
-			contentAreaElement.height(contentAreaElement[0].scrollHeight);
-
-			contentAreaElement.focus(); //so that input isn't highlighted and user can begin typing in textarea straight away
+			textarea.show();
+			textarea.height(textarea[0].scrollHeight);
 		}
-
-
-
-
-
-
-
-
 	},
 	
 	"keyup .js-list-element":function(event) {
@@ -227,27 +242,6 @@ Template.content.events({
 			}
 		).confirmation("toggle");
 	},
-	"click .js-enable-element-deletion":function(event) {
-		var oneTopicDiv = $(event.currentTarget).parent().parent();
-
-		if (Session.get("deleteElementMode")) {
-			oneTopicDiv.find(".js-check-element-box").css("display", "inline");
-
-			oneTopicDiv.find(".js-delete-list-element").css("display", "none");
-
-			$(event.currentTarget).css("text-decoration", "none");
-
-			Session.set("deleteElementMode", false);
-		} else {
-			oneTopicDiv.find(".js-check-element-box").css("display", "none");
-
-			oneTopicDiv.find(".js-delete-list-element").css("display", "inline");
-
-			$(event.currentTarget).css("text-decoration", "underline");
-
-			Session.set("deleteElementMode", true);
-		}
-	},
 	"click .js-delete-list-element":function(event) {
 		var button = $(event.currentTarget);
 		var elementRank = button.parent().parent().attr('id');
@@ -257,20 +251,11 @@ Template.content.events({
 	},
 	"click .js-check-element-box":function(event) {
 		var checkbox = $(event.target);
-
-		var checked;
-		if (checkbox.is(":checked")) {checked = true;} else {checked = false;}
-
+		var checked = checkbox.is(":checked");
 		var elementRank = checkbox.parent().parent().attr('id');
 		var topicID = checkbox.parent().parent().parent().parent().attr('id');
 
-		Meteor.call("setElementChecked", topicID, elementRank, checked, function() {
-			if (checked) {
-				checkbox.parent().next().children().first().css("text-decoration", "line-through");
-			} else {
-				checkbox.parent().next().children().first().css("text-decoration", "none");
-			}
-		});
+		Meteor.call("setElementChecked", topicID, elementRank, checked);
 	},
 	"click .js-refresh-checked-elements":function(event) {
 		var button = $(event.target);
@@ -280,12 +265,86 @@ Template.content.events({
 	},
 	//button under topic name that hides all open content areas for the given topic
 	"click .js-hide-all-elements-content":function(event) {
-		var button = $(event.target);
-		var topicID = button.parent().parent().attr("id");
+		var button = $(event.currentTarget);
+		var div = button.parent().parent();
 
-		$(".content " + "#" + topicID + " .js-list-element-content").each(function() {
-			$(this).hide();
-		});
+		div.find(".js-list-element-content").hide();
+		div.find(".glyphicon-menu-up").toggleClass("glyphicon-menu-down");
+		div.find(".glyphicon-menu-up").toggleClass("glyphicon-menu-up");
+	},
+
+	"click .js-enable-element-deletion":function(event) {
+		var button = $(event.currentTarget);
+		var div = button.parent().parent();
+
+		if (Session.get("deleteElementMode")) {
+
+			div.find(".js-delete-list-element").css("display", "none");
+
+			button.css("text-decoration", "none");
+
+			Session.set("deleteElementMode", false);
+		} else {
+
+			disableAllModes(div);
+
+			div.find(".js-delete-list-element").css("display", "inline");
+
+			button.css("text-decoration", "underline");
+
+			Session.set("deleteElementMode", true);
+		}
+	},
+
+	"click .js-color-elements":function(event) {
+		var button = $(event.currentTarget);
+		var oneTopicDiv = button.parent().parent();
+
+		if (Session.get("changeColorMode")) {
+
+			oneTopicDiv.find(".js-change-element-color").css("display", "none");
+
+			button.css("text-decoration", "none");
+
+			Session.set("changeColorMode", false);
+		} else {
+
+			disableAllModes(oneTopicDiv);
+
+			oneTopicDiv.find(".js-change-element-color").css("display", "inline");
+
+			button.css("text-decoration", "underline");
+
+			Session.set("changeColorMode", true);
+
+		}
+	},
+
+	"click .js-show-checkboxes":function(event) {
+		var button = $(event.currentTarget);
+		var div = button.parent().parent();
+
+		if (Session.get("showCheckboxesMode")) {
+
+			div.find(".js-check-element-box").css("display", "none");
+
+			button.css("text-decoration", "none");
+
+			Session.set("showCheckboxesMode", false);
+		} else {
+			disableAllModes(div);
+
+			div.find(".js-check-element-box").css("display", "inline");
+
+			button.css("text-decoration", "underline");
+
+			Session.set("showCheckboxesMode", true);
+		}
+
+	},
+
+	"click .js-change-element-color":function(event) {
+		console.log("hi");
 	}
 
 });
@@ -338,4 +397,14 @@ function compare(a,b) {
 	if (a.rank > b.rank)
 		return 1;
 	return 0;
+}
+
+function disableAllModes(div) {
+	div.find(".js-check-element-box").css("display", "none");
+	div.find(".js-delete-list-element").css("display", "none");
+	div.find(".js-change-element-color").css("display", "none");
+
+	div.find(".js-enable-element-deletion").css("text-decoration", "none");
+	div.find(".js-color-elements").css("text-decoration", "none");
+	div.find(".js-show-checkboxes").css("text-decoration", "none");
 }
